@@ -11,8 +11,8 @@ This project is a port of the [btcd](https://github.com/btcsuite/btcd) codebase 
 and reliable blockchain server which makes it a suitable backend to serve blockchain data to lite clients and block explorers
 or to power your local wallet.
 
-bchd does not include any wallet functionality by design as it makes the codebase more modular and easy to maintain. 
-The [bchwallet](https://github.com/gcash/bchwallet) is a separate application that provides a secure Bitcoin Cash wallet 
+bchd does not include any wallet functionality by design as it makes the codebase more modular and easy to maintain.
+The [bchwallet](https://github.com/gcash/bchwallet) is a separate application that provides a secure Bitcoin Cash wallet
 that communicates with your running bchd instance via the API.
 
 ## Table of Contents
@@ -28,7 +28,7 @@ that communicates with your running bchd instance via the API.
 
 ## Requirements
 
-[Go](http://golang.org) 1.8 or newer.
+[Go](http://golang.org) 1.10 or newer.
 
 ## Install
 
