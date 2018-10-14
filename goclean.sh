@@ -1,28 +1,27 @@
 #!/bin/bash
+
 # The script does automatic checking on a Go package and its sub-packages, including:
 # 1. gofmt         (http://golang.org/cmd/gofmt/)
 # 2. golint        (https://github.com/golang/lint)
-# 3. go vet        (http://golang.org/cmd/vet)
-# 4. gosimple      (https://github.com/dominikh/go-simple)
-# 5. unconvert     (https://github.com/mdempsky/unconvert)
+# 3. gosimple      (https://github.com/dominikh/go-simple)
+# 4. unconvert     (https://github.com/mdempsky/unconvert)
 #
-# gometalinter.v2 (gopkg.in/alecthomas/gometalinter.v2) is used to run each static
-# checker.
+# gometalinter (github.com/alecthomas/gometalinter) is used to run each each
+# static checker.
 
-set -ex
+set -eux
 
-# Make sure gometalinter is installed and $GOPATH/bin is in your path.
-if [ ! -x "$(type -p gometalinter.v2)" ]; then
-  exit 1
+GO_VERSION=$(go version | grep -Eo 'go[0-9]+\.[0-9]+')
+test -n "$GO_VERSION"
+
+if [ "$GO_VERSION" = "go1.11" ]; then
+    test -z "$(gometalinter --disable-all \
+        --enable=gofmt \
+        --enable=golint \
+        --enable=gosimple \
+        --enable=unconvert \
+        --deadline=10m \
+        --vendor ./... | grep -v 'ALL_CAPS\|OP_' 2>&1 | tee /dev/stderr)"
 fi
 
-# Automatic checks
-test -z "$(gometalinter.v2 --disable-all \
---enable=gofmt \
---enable=golint \
---enable=vet \
---enable=gosimple \
---enable=unconvert \
---deadline=10m \
---vendor ./... | grep -v 'ALL_CAPS\|OP_' 2>&1 | tee /dev/stderr)"
 go test -tags rpctest ./...
